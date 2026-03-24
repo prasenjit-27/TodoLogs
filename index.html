@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo Logs</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+
+    <!-- External Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <div class="app-container">
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-head">
+                <h3>Upcoming Events</h3>
+                <button class="sidebar-close" id="sidebar-close" aria-label="Close menu">
+                    <i class="fas fa-xmark"></i>
+                </button>
+            </div>
+            <div class="upcoming-events" id="upcoming-events">
+                <div class="empty-state">
+                    <i class="fas fa-calendar-alt"></i>
+                    <p>No upcoming events</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="header">
+                <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1><i class="fas fa-list-check"></i><span>Todo Logs</span></h1>
+                <div class="customization-container">
+                    <button class="dark-mode-toggle" id="dark-mode-toggle" aria-label="Toggle dark mode">
+                        <i class="fas fa-sun" id="dark-mode-icon"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="content-area">
+                <div class="left-panel">
+                    <div class="calendar-container">
+                        <div class="calendar-header">
+                            <h2 id="current-month">June 2023</h2>
+                            <div class="calendar-nav">
+                                <button id="prev-month">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <div class="month-year-selector">
+                                    <select id="month-selector" class="month-selector">
+                                        <option value="0">January</option>
+                                        <option value="1">February</option>
+                                        <option value="2">March</option>
+                                        <option value="3">April</option>
+                                        <option value="4">May</option>
+                                        <option value="5">June</option>
+                                        <option value="6">July</option>
+                                        <option value="7">August</option>
+                                        <option value="8">September</option>
+                                        <option value="9">October</option>
+                                        <option value="10">November</option>
+                                        <option value="11">December</option>
+                                    </select>
+                                    <input type="number" id="year-selector" class="year-selector" min="2020" max="2030"
+                                        style="width: 70px" />
+                                </div>
+                                <button id="today-btn">Today</button>
+                                <button id="next-month">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="calendar-grid" id="calendar">
+                            <!-- Calendar will be generated here -->
+                        </div>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3 id="summary-date">📅 24 March 2026</h3>
+
+                        <div class="summary-item">
+                            <span>✔ Completed</span>
+                            <span id="completed-count">0</span>
+                        </div>
+
+                        <div class="summary-item">
+                            <span>⏳ Pending</span>
+                            <span id="pending-count">0</span>
+                        </div>
+
+                        <div class="summary-item">
+                            <span>⭐ Important</span>
+                            <span id="important-count">0</span>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="task-panel">
+                    <div class="task-list-container">
+                        <div class="task-list-header">
+                            <h2>Tasks List</h2>
+                            <button class="add-task-btn" id="add-task-btn">
+                                <i class="fas fa-plus"></i> Add Task
+                            </button>
+                        </div>
+                        <div class="task-date" id="selected-date-display">
+                            Select a date to view tasks
+                        </div>
+                        <div class="task-list" id="task-list">
+                            <div class="empty-state">
+                                <i class="fas fa-calendar-check"></i>
+                                <p>No tasks for this date</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="important-panel">
+                    <div class="important-events-container">
+                        <div class="important-events-header">
+                            <h2>Important</h2>
+                        </div>
+                        <div class="important-events-list" id="important-events-list">
+                            <div class="empty-state">
+                                <p>No important events for the selected date</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Task Modal -->
+    <div class="modal" id="task-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Task</h3>
+                <button class="close-modal" id="close-task-modal">&times;</button>
+            </div>
+            <form id="task-form">
+                <input type="hidden" id="task-id" />
+                <div class="form-group">
+                    <label for="task-text">Task</label>
+                    <input type="text" id="task-text" required placeholder="Enter your task..." />
+                </div>
+                <div class="task-options-row">
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="task-important" />
+                            <label for="task-important">Mark as Important</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="task-daily" />
+                            <label for="task-daily">Mark as Daily Task</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancel-task">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary">Save Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Custom JavaScript -->
+    <script src="script.js"></script>
+</body>
+
+</html>
